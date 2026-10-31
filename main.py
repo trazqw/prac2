@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import os
+from dependency_service import get_direct_dependencies
 
 REQUIRED_PARAMETERS = [
     "package_name",
@@ -87,11 +88,28 @@ def main():
             print("\nОбнаружены ошибки:")
             for error in errors:
                 print(f"- {error}")
+            return
+
+        dependencies = get_direct_dependencies(
+            config["repository_url"],
+            config["package_name"],
+            config["package_version"]
+        )
+
+        print("\nПрямые зависимости пакета:")
+
+        if not dependencies:
+            print("Зависимости отсутствуют.")
         else:
-            print("\nКонфигурация успешно проверена.")
+            for dependency in dependencies:
+                print(
+                    f"- {dependency['crate_id']} "
+                    f"(версия: {dependency['req']}, "
+                    f"тип: {dependency['kind']})"
+                )
 
     except ValueError as error:
-        print(f"Ошибка конфигурации: {error}")
+        print(f"\nОшибка: {error}")
 
 
 if __name__ == "__main__":
