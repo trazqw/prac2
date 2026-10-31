@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <package_name>serde</package_name>
+    <repository_url>https://crates.io/api/v1</repository_url>
+    <test_repository_path>examples/test_repository.json</test_repository_path>
+    <test_mode>true</test_mode>
+    <package_version>1.0.0</package_version>
+    <output_file>output/dependencies.svg</output_file>
+    <max_depth>3</max_depth>
+    <filter_substring></filter_substring>
+</configuration>

@@ -1,0 +1,6 @@
+{
+    "serde": ["SERDE_CORE", "SERDE_DERIVE"],
+    "SERDE_CORE": ["SERDE_UTIL"],
+    "SERDE_DERIVE": [],
+    "SERDE_UTIL": []
+}
