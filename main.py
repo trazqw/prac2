@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import os
-from graph_service import build_graph
+from graph_service import build_graph, find_reverse_dependencies
 
 REQUIRED_PARAMETERS = [
     "package_name", "repository_url", "test_repository_path", "test_mode",
@@ -77,6 +77,20 @@ def main():
                 print(f"{package} -> {', '.join(dependencies)}")
             else:
                 print(f"{package} -> нет зависимостей")
+                reverse_dependencies = find_reverse_dependencies(
+                    graph, config["package_name"]
+                )
+
+                print(
+                    f"\nОбратные зависимости пакета "
+                    f"{config['package_name']}:"
+                )
+
+                if reverse_dependencies:
+                    for package in reverse_dependencies:
+                        print(f"- {package}")
+                else:
+                    print("Обратные зависимости не найдены")
     except ValueError as error:
         print(f"\nОшибка: {error}")
 

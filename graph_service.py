@@ -74,3 +74,38 @@ def build_graph(package_name, package_version, repository_url, max_depth,
 
     bfs()
     return result
+def find_reverse_dependencies(graph, package_name):
+    reverse_graph = {}
+
+    for package, dependencies in graph.items():
+        reverse_graph.setdefault(package, [])
+
+        for dependency in dependencies:
+            reverse_graph.setdefault(dependency, [])
+            reverse_graph[dependency].append(package)
+
+    if package_name not in reverse_graph:
+        raise ValueError(
+            f"Пакет {package_name} отсутствует в графе"
+        )
+
+    result = []
+    visited = {package_name}
+    queue = [package_name]
+
+    def bfs():
+        if not queue:
+            return
+
+        current_package = queue.pop(0)
+
+        for dependent in reverse_graph[current_package]:
+            if dependent not in visited:
+                visited.add(dependent)
+                result.append(dependent)
+                queue.append(dependent)
+
+        bfs()
+
+    bfs()
+    return result
